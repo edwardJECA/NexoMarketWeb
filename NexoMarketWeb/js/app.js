@@ -293,7 +293,7 @@ function renderSidebarMenu(items) {
       <span>${item.icon}</span> ${item.label}
     </button>
   `).join("");
-}
+}              
 
 function selectPanelTab(tabId, label) {
   activePanelTab = tabId;
@@ -493,7 +493,7 @@ function renderPanelContent() {
     </div>
   `;
 }
-
+// Agregar stock o modificar la cantidad exacta con fijar
 function restockProduct(id, modo) {
   const prod = db.products.find(p => p.id === id);
   if (!prod) return;
