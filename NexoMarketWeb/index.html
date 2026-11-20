@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nexomarket · Sistema de Gestión Comercial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- =========================================================
+       1. PANTALLA DE LOGIN / SELECCIÓN DE ROL
+       ========================================================= -->
+  <section id="login-view" class="login-screen">
+    <!-- Columna Izquierda: Branding + Cuentas de Demo -->
+    <div class="login-left">
+      <div class="brand-header">
+        <!-- Logo Vectorial NexoMarket (Azul + Naranja) -->
+        <svg class="nexo-logo-lg" viewBox="0 0 140 115" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Bolsa naranja -->
+          <path d="M56 36 C56 14, 86 14, 86 36" stroke="#F96316" stroke-width="8" stroke-linecap="round"/>
+          <path d="M47 46 C47 38, 53 35, 62 35 L86 35 C95 35, 100 40, 101 49 L105 84 C106 94, 99 101, 89 101 L76 101 C68 101, 62 97, 56 89 L48 78" stroke="#F96316" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M84 37 C84 52, 74 62, 58 66" stroke="#F96316" stroke-width="8" stroke-linecap="round"/>
+          <!-- Letra N azul brillante para fondo oscuro -->
+          <path d="M24 99 L24 38 L52 74" stroke="#3B82F6" stroke-width="9.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M58 76 L58 99" stroke="#3B82F6" stroke-width="9.5" stroke-linecap="round"/>
+          <!-- Nodo circular central -->
+          <circle cx="54" cy="68" r="13" fill="#0D1424"/>
+          <circle cx="54" cy="68" r="9.5" stroke="#3B82F6" stroke-width="6.5" fill="#FFFFFF"/>
+        </svg>
+
+        <h1 class="brand-title">nexo<span>market</span></h1>
+        <p class="brand-subtitle">Conectando tu negocio · impulsando cada venta</p>
+      </div>
+
+      <div class="demo-accounts-box">
+        <p class="demo-label">CUENTAS DE DEMO</p>
+
+        <!-- Tarjeta Administrador -->
+        <button type="button" class="demo-card" onclick="quickLogin('admin')">
+          <div class="demo-info">
+            <span class="dot dot-blue"></span>
+            <div>
+              <strong class="demo-role text-blue">Administrador</strong>
+              <span class="demo-creds">admin@nexomarket.mx · admin123</span>
+            </div>
+          </div>
+          <span class="demo-action">Entrar →</span>
+        </button>
+
+        <!-- Tarjeta Logística -->
+        <button type="button" class="demo-card" onclick="quickLogin('logistica')">
+          <div class="demo-info">
+            <span class="dot dot-orange"></span>
+            <div>
+              <strong class="demo-role text-orange">Logística</strong>
+              <span class="demo-creds">logistica@nexomarket.mx · log123</span>
+            </div>
+          </div>
+          <span class="demo-action">Entrar →</span>
+        </button>
+
+        <!-- Tarjeta Usuario -->
+        <button type="button" class="demo-card" onclick="quickLogin('usuario')">
+          <div class="demo-info">
+            <span class="dot dot-cyan"></span>
+            <div>
+              <strong class="demo-role text-cyan">Usuario</strong>
+              <span class="demo-creds">maria.garcia@email.com · user123</span>
+            </div>
+          </div>
+          <span class="demo-action">Entrar →</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Columna Derecha: Formulario de Acceso -->
+    <div class="login-right">
+      <div class="auth-card">
+        <div class="auth-tabs">
+          <button type="button" id="tab-login" class="auth-tab active" onclick="switchAuthTab('login')">Iniciar sesión</button>
+          <button type="button" id="tab-register" class="auth-tab" onclick="switchAuthTab('register')">Crear cuenta</button>
+        </div>
+
+        <form id="auth-form" onsubmit="handleAuthSubmit(event)">
+          <div id="register-name-group" class="form-group hidden">
+            <label for="input-name">Nombre completo</label>
+            <input type="text" id="input-name" placeholder="Ej. María García" />
+          </div>
+
+          <div class="form-group">
+            <label for="input-email">Correo electrónico</label>
+            <input type="email" id="input-email" placeholder="tu@correo.com" required />
+          </div>
+
+          <div class="form-group">
+            <label for="input-password">Contraseña</label>
+            <input type="password" id="input-password" placeholder="••••••••" required />
+          </div>
+
+          <p id="auth-error" class="auth-error hidden"></p>
+
+          <button type="submit" id="auth-submit-btn" class="btn-primary-full">Entrar al sistema</button>
+        </form>
+
+        <p class="system-footer">Sistema de gestión comercial · nexomarket v1.0</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================
+       2. VISTA DE USUARIO / CLIENTE (TIENDA)
+       ========================================================= -->
+  <section id="user-view" class="app-screen hidden">
+    <header class="user-navbar">
+      <div class="nav-left">
+        <div class="nav-brand">
+          <!-- Logo en Navbar (Fondo Claro) -->
+          <svg class="nexo-logo-sm" viewBox="0 0 140 115" fill="none">
+            <path d="M56 36 C56 14, 86 14, 86 36" stroke="#F96316" stroke-width="9" stroke-linecap="round"/>
+            <path d="M47 46 C47 38, 53 35, 62 35 L86 35 C95 35, 100 40, 101 49 L105 84 C106 94, 99 101, 89 101 L76 101 C68 101, 62 97, 56 89 L48 78" stroke="#F96316" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M84 37 C84 52, 74 62, 58 66" stroke="#F96316" stroke-width="9" stroke-linecap="round"/>
+            <path d="M24 99 L24 38 L52 74" stroke="#1B459B" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M58 76 L58 99" stroke="#1B459B" stroke-width="10" stroke-linecap="round"/>
+            <circle cx="54" cy="68" r="13" fill="#FFFFFF"/>
+            <circle cx="54" cy="68" r="9.5" stroke="#1B459B" stroke-width="7" fill="#FFFFFF"/>
+          </svg>
+          <span class="nav-brand-text"><strong>nexo</strong>market</span>
+        </div>
+        <nav class="user-nav-links">
+          <button id="btn-nav-tienda" class="nav-pill active" onclick="switchUserSection('tienda')">Tienda</button>
+          <button id="btn-nav-pedidos" class="nav-pill" onclick="switchUserSection('pedidos')">Mis pedidos</button>
+        </nav>
+      </div>
+
+      <div class="nav-right">
+        <span class="user-greeting">Hola, <strong id="user-display-name">María</strong></span>
+        <button class="icon-btn cart-trigger" onclick="toggleCartDrawer(true)" title="Ver carrito">
+          🛍️ <span id="cart-badge" class="cart-badge hidden">0</span>
+        </button>
+        <button class="icon-btn" onclick="logout()" title="Cerrar sesión">↪</button>
+      </div>
+    </header>
+
+    <!-- Subvista: Catálogo -->
+    <main id="user-section-tienda" class="user-container">
+      <div class="section-header">
+        <h2>Catálogo</h2>
+        <p>Descubre nuestra selección de productos</p>
+      </div>
+
+      <div id="category-filters" class="filter-bar"></div>
+      <div id="products-grid" class="products-grid"></div>
+    </main>
+
+    <!-- Subvista: Mis pedidos -->
+    <main id="user-section-pedidos" class="user-container hidden">
+      <div class="section-header">
+        <h2>Mis pedidos</h2>
+        <p>Historial y seguimiento en tiempo real de tus compras</p>
+      </div>
+      <div class="table-card">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Pedido</th>
+              <th>Fecha</th>
+              <th>Detalle</th>
+              <th>Total</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="user-orders-tbody"></tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- Drawer lateral del Carrito -->
+    <div id="cart-overlay" class="drawer-overlay hidden" onclick="toggleCartDrawer(false)"></div>
+    <aside id="cart-drawer" class="cart-drawer">
+      <div class="drawer-header">
+        <h3>Tu Carrito</h3>
+        <button class="icon-btn" onclick="toggleCartDrawer(false)">✕</button>
+      </div>
+      <div id="cart-items-list" class="drawer-body"></div>
+      <div class="drawer-footer">
+        <div class="cart-total-row">
+          <span>Total a pagar:</span>
+          <strong id="cart-total-amount">$0.00</strong>
+        </div>
+        <button class="btn-orange-full" onclick="checkoutCart()">Confirmar compra</button>
+      </div>
+    </aside>
+  </section>
+
+  <!-- =========================================================
+       3. VISTA DE ADMINISTRADOR / LOGÍSTICA (PANEL DE GESTIÓN)
+       ========================================================= -->
+  <section id="panel-view" class="panel-screen hidden">
+    <!-- Sidebar Oscuro -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <svg class="nexo-logo-sm" viewBox="0 0 140 115" fill="none">
+          <path d="M56 36 C56 14, 86 14, 86 36" stroke="#F96316" stroke-width="9" stroke-linecap="round"/>
+          <path d="M47 46 C47 38, 53 35, 62 35 L86 35 C95 35, 100 40, 101 49 L105 84 C106 94, 99 101, 89 101 L76 101 C68 101, 62 97, 56 89 L48 78" stroke="#F96316" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M84 37 C84 52, 74 62, 58 66" stroke="#F96316" stroke-width="9" stroke-linecap="round"/>
+          <path d="M24 99 L24 38 L52 74" stroke="#3B82F6" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M58 76 L58 99" stroke="#3B82F6" stroke-width="10" stroke-linecap="round"/>
+          <circle cx="54" cy="68" r="13" fill="#0B1120"/>
+          <circle cx="54" cy="68" r="9.5" stroke="#3B82F6" stroke-width="7" fill="#FFFFFF"/>
+        </svg>
+        <div>
+          <div class="sidebar-brand">nexo<span>market</span></div>
+          <div id="sidebar-role-subtitle" class="sidebar-sub">Panel de gestión</div>
+        </div>
+      </div>
+
+      <nav id="sidebar-menu" class="sidebar-menu"></nav>
+
+      <div class="sidebar-footer">
+        <button class="btn-logout-sidebar" onclick="logout()">↪ Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <!-- Contenido Principal del Panel -->
+    <div class="panel-main">
+      <header class="panel-topbar">
+        <div>
+          <h1 id="panel-page-title">Dashboard</h1>
+          <p id="panel-date-subtitle" class="panel-date">nexomarket · viernes, 20 de noviembre de 2026</p>
+        </div>
+        <div class="panel-user-pill" id="panel-active-role-badge">Administrador</div>
+      </header>
+
+      <div id="panel-content" class="panel-content"></div>
+    </div>
+  </section>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
